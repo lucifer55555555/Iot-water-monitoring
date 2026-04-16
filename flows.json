@@ -1,0 +1,189 @@
+[
+    {
+        "id": "76440e04085e2c7e",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "845a8f448637d437",
+        "type": "mqtt in",
+        "z": "76440e04085e2c7e",
+        "name": "",
+        "topic": "water/sensors",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "adb164f3719c070f",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 270,
+        "y": 60,
+        "wires": [
+            [
+                "4d2af7d44ef3279a"
+            ]
+        ]
+    },
+    {
+        "id": "6803e587fc3dafe2",
+        "type": "debug",
+        "z": "76440e04085e2c7e",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 320,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "4d2af7d44ef3279a",
+        "type": "json",
+        "z": "76440e04085e2c7e",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 310,
+        "y": 220,
+        "wires": [
+            [
+                "1b444fda6fa83513"
+            ]
+        ]
+    },
+    {
+        "id": "1b444fda6fa83513",
+        "type": "function",
+        "z": "76440e04085e2c7e",
+        "name": "function 1",
+        "func": "let ph = msg.payload.ph;\nlet tds = msg.payload.tds;\n\nif(ph < 6.5 || ph > 8.5){\n    msg.payload.ph_status = \"Unsafe pH\";\n}else{\n    msg.payload.ph_status = \"Safe pH\";\n}\n\nif(tds > 500){\n    msg.payload.tds_status = \"High TDS - Water Unsafe\";\n}else{\n    msg.payload.tds_status = \"TDS Safe\";\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 300,
+        "wires": [
+            [
+                "6803e587fc3dafe2",
+                "c609076f40a77582"
+            ]
+        ]
+    },
+    {
+        "id": "acd4c8ebc67ea482",
+        "type": "inject",
+        "z": "76440e04085e2c7e",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{  \"ph\": 7.2,  \"tds\": 320 }",
+        "payloadType": "json",
+        "x": 470,
+        "y": 60,
+        "wires": [
+            [
+                "4d2af7d44ef3279a"
+            ]
+        ]
+    },
+    {
+        "id": "c609076f40a77582",
+        "type": "mqtt out",
+        "z": "76440e04085e2c7e",
+        "name": "",
+        "topic": "v1/devices/me/telemetry",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "81287319941abbe6",
+        "x": 470,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "adb164f3719c070f",
+        "type": "mqtt-broker",
+        "name": "water/sensors",
+        "broker": "broker.hivemq.com",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "81287319941abbe6",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "eu.thingsboard.cloud",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    }
+]
